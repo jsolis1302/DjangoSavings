@@ -1,0 +1,36 @@
+{% extends "bank/layout.html" %}
+
+{% block body %}
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <a class='btn btn-primary btn-sm' href = "{% url 'deposit' %}">Go to Deposit</a> 
+        </div>
+    </div>
+    <h2>Total Saved: $ {{bank.total | floatformat:2}}</h2>
+    <div class="row">   
+        <h3>Deposit Histoy</h3>
+        <table class="table">
+            <thead class="table-dark">
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Deposit date</th>
+                    <th scope="col">Amount</th>
+                  </tr>
+                </thead>
+                <tbody>
+                    {% for account in accounts %}
+                    <tr>
+                        <td>{{forloop.counter}}</td>
+                        <td>{{account.date}}</td>
+                        <td>{{account.amount | floatformat:2}}</td>
+
+                      </tr>
+                    {% endfor %}
+                </tbody>
+
+        </table>
+    </div>
+</div>
+
+{% endblock body %}

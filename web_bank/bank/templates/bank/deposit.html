@@ -1,0 +1,29 @@
+{% extends "bank/layout.html" %}
+
+{% block body %}
+<div class="container">
+    <h2>Deposit form</h2>
+    <form method = 'POST'>
+        {% csrf_token %}
+        <div class="form-group">
+            {{deposit_form.oneValue.label_tag}}
+            {{deposit_form.oneValue}}
+        </div>
+        <div class="form-group">
+            {{deposit_form.twoValue.label_tag}}
+            {{deposit_form.twoValue}}
+        </div>
+        <div class="form-group">
+            {{deposit_form.fiveValue.label_tag}}
+            {{deposit_form.fiveValue}}
+        </div>
+        <div class="form-group">
+            {{deposit_form.tenValue.label_tag}}
+            {{deposit_form.tenValue}}
+        </div>
+        <button type="submit" class="btn btn-primary">Make Deposit</button>
+      </form>
+</div>
+
+
+{% endblock body %}
