@@ -1,2 +1,2 @@
 # DjangoSavings
-A small bank account
+A small bank account to store savings
