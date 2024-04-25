@@ -1,0 +1,21 @@
+{% extends "bank/layout.html" %}
+
+{% block body %}
+<div class="container">
+    <h2>Add new account</h2>
+    <form method = 'POST'>
+        {% csrf_token %}
+        <div class="form-group">
+            {{account_form.nameValue.label_tag}}
+            {{account_form.nameValue}}
+        </div>
+        <div class="form-group">
+            {{account_form.amountValue.label_tag}}
+            {{account_form.amountValue}}
+        </div>
+        <button type="submit" class="btn btn-primary">Add Account</button>
+      </form>
+</div>
+
+
+{% endblock body %}

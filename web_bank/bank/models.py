@@ -5,16 +5,18 @@ from django.db import models
 class Bank(models.Model):
 
     id = models.AutoField(primary_key=True)
+    name = models.CharField(max_length=20, default="new")
     total = models.FloatField()
 
     def __str__(self):
-        return f"id: {self.id}, total: {self.total}"
+        return f"Account Name: {self.name}"
     
 
 class Account(models.Model):
     id = models.AutoField(primary_key=True)
     amount = models.FloatField()
     date = models.DateField()
+    account = models.ForeignKey(Bank,on_delete=models.CASCADE,default=1)
 
     def __str__(self):
         return f"id: {self.id}, amount: {self.amount}, date: {self.date}"

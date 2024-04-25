@@ -4,18 +4,39 @@ from django.http import HttpResponseBadRequest, HttpResponseRedirect, Http404
 from django.shortcuts import render
 from django.urls import reverse
 
-from bank.forms import DepositForm
+from bank.forms import DepositForm,AccountForm
 
 from .models import Bank,Account
 
 # Create your views here.
 
 def index(request):
-    print(Account.objects.all())
+    #print(Account.objects.all())
+    return render(request, "bank/index.html",{
+        "banks": Bank.objects.all().order_by('name')
+        #"accounts":Account.objects.all().order_by('-date')
+    })
+
+def allBanks(request):
     return render(request, "bank/index.html",{
         "bank": Bank.objects.first(),
         "accounts":Account.objects.all().order_by('-date')
     })
+
+def accountByid(request,bank_id):
+        try:
+            account = Account.objects.filter(account=bank_id)
+            print(account)
+        except Account.DoesNotExist:
+            raise Http404("Flight not found.")
+        return render(request, "bank/bankDetail.html", {
+            "accounts": account,
+            "bank":Bank.objects.get(id=bank_id)
+            #"passengers": flight.passengers.all(),
+            #"non_passengers": Passenger.objects.exclude(flights=flight).all()
+        })
+    
+
     
 def deposit(request):
     form = DepositForm()
@@ -47,3 +68,22 @@ def deposit(request):
     return render(request, "bank/deposit.html",{
         "deposit_form": form
     })
+
+def addAccount(request):
+    form = AccountForm()
+    if request.method == 'POST':
+        form = AccountForm(request.POST)
+        if form.is_valid():
+            nameValue = form.cleaned_data.get('nameValue')
+            amountValue = form.cleaned_data.get('amountValue')
+            
+
+            newDep = Bank(total=amountValue, name= nameValue )
+            newDep.save()
+    else:
+        form = AccountForm()
+
+    return render(request, "bank/newAccount.html",{
+        "account_form": form
+    })
+

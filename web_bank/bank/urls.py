@@ -4,4 +4,6 @@ from bank import views
 urlpatterns = [
     path("", views.index, name="index"),
     path("deposit", views.deposit, name="deposit"),
+    path("account/<int:bank_id>", views.accountByid, name="details"),
+    path("newaccount",views.addAccount,name="newaccount")
 ]

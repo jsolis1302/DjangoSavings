@@ -4,30 +4,12 @@
 <div class="container">
     <div class="row">
         <div class="col">
-            <a class='btn btn-primary btn-sm' href = "{% url 'newaccount' %}">Add new account</a> 
+            <a class='btn btn-primary btn-sm' href = "{% url 'deposit' %}">Go to Deposit</a> 
         </div>
-    </div> 
-    <h2>All accounts</h2>
-    <ul class="list-group">
-    {% for bank in banks %}
-        <li class="list-group-item">
-            <div class="row">
-                <div class="col">
-                    <h2>Account name: {{bank.name}}</h2>
-                </div>
-                <div class="col">
-                    <a class="nav-link active" href = "{% url 'details' bank.id %}">Details</a>
-                </div>
-            </div>
-
-            
-            
-        </li>
-        
-        
-    {% endfor %}
-    </ul>
-    {% comment %} <div class="row">   
+    </div>
+    <h2>Accaunt name: {{bank.name}}</h2>
+    <h2>Total Saved: $ {{bank.total | floatformat:2}}</h2>
+    <div class="row">   
         <h3>Deposit Histoy</h3>
         <table class="table">
             <thead class="table-dark">
@@ -49,7 +31,7 @@
                 </tbody>
 
         </table>
-    </div> {% endcomment %}
+    </div>
 </div>
 
 {% endblock body %}
