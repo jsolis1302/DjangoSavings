@@ -11,7 +11,7 @@ from .models import Bank,Account
 # Create your views here.
 
 def index(request):
-    #print(Account.objects.all())
+    
     return render(request, "bank/index.html",{
         "banks": Bank.objects.all().order_by('name')
         #"accounts":Account.objects.all().order_by('-date')
@@ -25,8 +25,8 @@ def allBanks(request):
 
 def accountByid(request,bank_id):
         try:
-            account = Account.objects.filter(account=bank_id)
-            print(account)
+            account = Account.objects.filter(account=bank_id).order_by('-date')
+            
         except Account.DoesNotExist:
             raise Http404("Flight not found.")
         return render(request, "bank/bankDetail.html", {
@@ -57,7 +57,6 @@ def deposit(request):
             bank = Bank.objects.first().total
             updatedAmount = bank + total
             newdate  = datetime.datetime.now().date()
-            print(newdate)
             newTotal = Bank(id=1,total =updatedAmount)
             newTotal.save()
             newDep = Account(amount=total, date= newdate )
