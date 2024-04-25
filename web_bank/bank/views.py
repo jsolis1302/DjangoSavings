@@ -44,20 +44,16 @@ def deposit(request):
         form = DepositForm(request.POST)
         if form.is_valid():
             oneval = form.cleaned_data.get('oneValue')
-            twoval = form.cleaned_data.get('twoValue')
-            fiveval = form.cleaned_data.get('fiveValue')
-            tenval = form.cleaned_data.get('tenValue')
+            twoval = form.cleaned_data.get('twoValue') *2
+            fiveval = form.cleaned_data.get('fiveValue')*5
+            tenval = form.cleaned_data.get('tenValue')*10
 
-            fintwo = twoval * 2
-            finfive = fiveval * 5
-            finten = tenval * 10
-            total = oneval + finfive + fintwo+ finten
-
+            total = oneval + twoval + fiveval + tenval
 
             bank = Bank.objects.first().total
             updatedAmount = bank + total
             newdate  = datetime.datetime.now().date()
-            newTotal = Bank(id=1,total =updatedAmount)
+            newTotal = Bank(id=1,total =updatedAmount,name='Vader Helmet')
             newTotal.save()
             newDep = Account(amount=total, date= newdate )
             newDep.save()
