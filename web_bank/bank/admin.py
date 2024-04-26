@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Bank,Account
+from .models import Bank,Account,AccountMaster,AccountDetail
 
 
 
@@ -8,3 +8,5 @@ from .models import Bank,Account
 # Register your models here.
 admin.site.register(Bank)
 admin.site.register(Account)
+admin.site.register(AccountMaster)
+admin.site.register(AccountDetail)
