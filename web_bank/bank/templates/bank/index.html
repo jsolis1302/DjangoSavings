@@ -9,14 +9,14 @@
     </div> 
     <h2>All accounts</h2>
     <ul class="list-group">
-    {% for bank in banks %}
+    {% for account in accounts %}
         <li class="list-group-item">
             <div class="row">
                 <div class="col">
-                    <h2>Account name: {{bank.name}}</h2>
+                    <h2>Account name: {{account.name}}</h2>
                 </div>
                 <div class="col">
-                    <a class="nav-link active" href = "{% url 'details' bank.id %}">Details</a>
+                    <a class="nav-link active" href = "{% url 'details' account.id %}">Details</a>
                 </div>
             </div>
 

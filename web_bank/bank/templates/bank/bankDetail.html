@@ -4,11 +4,11 @@
 <div class="container">
     <div class="row">
         <div class="col">
-            <a class='btn btn-primary btn-sm' href = "{% url 'deposit' bank.id %}">Go to Deposit</a> 
+            <a class='btn btn-primary btn-sm' href = "{% url 'deposit' account.id %}">Go to Deposit</a> 
         </div>
     </div>
-    <h2>Account name: {{bank.name}}</h2>
-    <h2>Total Saved: $ {{bank.total | floatformat:2}}</h2>
+    <h2>Account name: {{account.name}}</h2>
+    <h2>Total Saved: $ {{account.total | floatformat:2}}</h2>
     <div class="row">   
         <h3>Deposit Histoy</h3>
         <table class="table">
@@ -20,11 +20,11 @@
                   </tr>
                 </thead>
                 <tbody>
-                    {% for account in accounts %}
+                    {% for detail in details %}
                     <tr>
                         <td>{{forloop.counter}}</td>
-                        <td>{{account.date}}</td>
-                        <td>{{account.amount | floatformat:2}}</td>
+                        <td>{{detail.date}}</td>
+                        <td>{{detail.amount | floatformat:2}}</td>
 
                       </tr>
                     {% endfor %}
