@@ -19,4 +19,10 @@ class Account(models.Model):
     account = models.ForeignKey(Bank,on_delete=models.CASCADE,default=1)
 
     def __str__(self):
-        return f"id: {self.id}, amount: {self.amount}, date: {self.date}"
+        return f"amount: {self.amount}, date: {self.date}, account: {self.account}"
+    
+class AccountMaster(models.Model):
+    pass
+
+class AccountDetail(models.Model):
+    pass
