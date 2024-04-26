@@ -4,7 +4,7 @@
 <div class="container">
     <div class="row">
         <div class="col">
-            <a class='btn btn-primary btn-sm' href = "{% url 'deposit' %}">Go to Deposit</a> 
+            <a class='btn btn-primary btn-sm' href = "{% url 'deposit' bank.id %}">Go to Deposit</a> 
         </div>
     </div>
     <h2>Accaunt name: {{bank.name}}</h2>

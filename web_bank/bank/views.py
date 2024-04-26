@@ -38,7 +38,7 @@ def accountByid(request,bank_id):
     
 
     
-def deposit(request):
+def deposit(request,bank_id):
     form = DepositForm()
     if request.method == 'POST':
         form = DepositForm(request.POST)
@@ -50,12 +50,12 @@ def deposit(request):
 
             total = oneval + twoval + fiveval + tenval
 
-            bank = Bank.objects.first().total
-            updatedAmount = bank + total
+            bank = Bank.objects.get(id=bank_id)
+            updatedAmount = bank.total + total
             newdate  = datetime.datetime.now().date()
-            newTotal = Bank(id=1,total =updatedAmount,name='Vader Helmet')
+            newTotal = Bank(id=bank_id,total =updatedAmount,name=bank.name)
             newTotal.save()
-            newDep = Account(amount=total, date= newdate )
+            newDep = Account(amount=total, date= newdate,account = bank )
             newDep.save()
     else:
         form = DepositForm()
