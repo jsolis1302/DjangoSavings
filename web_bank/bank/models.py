@@ -15,7 +15,7 @@ class Bank(models.Model):
 class Account(models.Model):
     id = models.AutoField(primary_key=True)
     amount = models.FloatField()
-    date = models.DateField()
+    date = models.DateTimeField()
     account = models.ForeignKey(Bank,on_delete=models.CASCADE,default=1)
 
     def __str__(self):

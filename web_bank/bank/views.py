@@ -1,7 +1,7 @@
 import datetime
 from django import forms
 from django.http import HttpResponseBadRequest, HttpResponseRedirect, Http404
-from django.shortcuts import render
+from django.shortcuts import render,redirect
 from django.urls import reverse
 
 from bank.forms import DepositForm,AccountForm
@@ -28,7 +28,7 @@ def accountByid(request,bank_id):
             account = Account.objects.filter(account=bank_id).order_by('-date')
             
         except Account.DoesNotExist:
-            raise Http404("Flight not found.")
+            raise Http404("Detail not found.")
         return render(request, "bank/bankDetail.html", {
             "accounts": account,
             "bank":Bank.objects.get(id=bank_id)
@@ -52,11 +52,14 @@ def deposit(request,bank_id):
 
             bank = Bank.objects.get(id=bank_id)
             updatedAmount = bank.total + total
-            newdate  = datetime.datetime.now().date()
+            newdate  = datetime.datetime.now()
+            print(newdate)
             newTotal = Bank(id=bank_id,total =updatedAmount,name=bank.name)
             newTotal.save()
             newDep = Account(amount=total, date= newdate,account = bank )
             newDep.save()
+            #return redirect("account/"+str(bank_id))
+            return HttpResponseRedirect(reverse('details',args=(bank_id,)))
     else:
         form = DepositForm()
 
@@ -71,10 +74,9 @@ def addAccount(request):
         if form.is_valid():
             nameValue = form.cleaned_data.get('nameValue')
             amountValue = form.cleaned_data.get('amountValue')
-            
-
             newDep = Bank(total=amountValue, name= nameValue )
             newDep.save()
+            return HttpResponseRedirect(reverse('index'))
     else:
         form = AccountForm()
 
