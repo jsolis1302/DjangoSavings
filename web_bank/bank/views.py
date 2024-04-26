@@ -6,7 +6,7 @@ from django.urls import reverse
 
 from bank.forms import DepositForm,AccountForm
 
-from .models import Bank,Account,AccountMaster,AccountDetail
+from .models import AccountMaster,AccountDetail
 
 # Create your views here.
 

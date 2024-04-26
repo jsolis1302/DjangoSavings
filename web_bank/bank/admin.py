@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Bank,Account,AccountMaster,AccountDetail
+from .models import AccountMaster,AccountDetail
 
 
 
