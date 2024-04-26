@@ -6,20 +6,20 @@ from django.urls import reverse
 
 from bank.forms import DepositForm,AccountForm
 
-from .models import AccountMaster,AccountDetail
+from .models import Account,AccountDetail
 
 # Create your views here.
 
 def index(request):
     
     return render(request, "bank/index.html",{
-        "banks": AccountMaster.objects.all().order_by('name')
+        "banks": Account.objects.all().order_by('name')
         #"accounts":Account.objects.all().order_by('-date')
     })
 
 def allBanks(request):
     return render(request, "bank/index.html",{
-        "bank": AccountMaster.objects.first(),
+        "bank": Account.objects.first(),
         "accounts":AccountDetail.objects.all().order_by('-date')
     })
 
@@ -31,7 +31,7 @@ def accountByid(request,bank_id):
             raise Http404("Detail not found.")
         return render(request, "bank/bankDetail.html", {
             "accounts": account,
-            "bank":AccountMaster.objects.get(id=bank_id)
+            "bank":Account.objects.get(id=bank_id)
             #"passengers": flight.passengers.all(),
             #"non_passengers": Passenger.objects.exclude(flights=flight).all()
         })
@@ -50,11 +50,11 @@ def deposit(request,bank_id):
 
             total = oneval + twoval + fiveval + tenval
 
-            bank = AccountMaster.objects.get(id=bank_id)
+            bank = Account.objects.get(id=bank_id)
             updatedAmount = bank.total + total
             newdate  = datetime.datetime.now()
             print(newdate)
-            newTotal = AccountMaster(id=bank_id,total =updatedAmount,name=bank.name)
+            newTotal = Account(id=bank_id,total =updatedAmount,name=bank.name)
             newTotal.save()
             newDep = AccountDetail(amount=total, date= newdate,account = bank )
             newDep.save()
@@ -74,7 +74,7 @@ def addAccount(request):
         if form.is_valid():
             nameValue = form.cleaned_data.get('nameValue')
             amountValue = form.cleaned_data.get('amountValue')
-            newDep = AccountMaster(total=amountValue, name= nameValue )
+            newDep = Account(total=amountValue, name= nameValue )
             newDep.save()
             return HttpResponseRedirect(reverse('index'))
     else:

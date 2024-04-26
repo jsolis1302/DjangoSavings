@@ -1,10 +1,10 @@
 from django.contrib import admin
 
-from .models import AccountMaster,AccountDetail
+from .models import Account,AccountDetail
 
 
 
 
 # Register your models here.
-admin.site.register(AccountMaster)
+admin.site.register(Account)
 admin.site.register(AccountDetail)
