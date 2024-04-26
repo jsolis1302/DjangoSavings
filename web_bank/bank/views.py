@@ -25,7 +25,7 @@ def allBanks(request):
 
 def accountByid(request,bank_id):
         try:
-            account = Account.objects.filter(account=bank_id).order_by('-date')
+            account = Account.objects.filter(account=bank_id).order_by('date')
             
         except Account.DoesNotExist:
             raise Http404("Detail not found.")
