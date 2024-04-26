@@ -74,10 +74,9 @@ def addAccount(request):
         if form.is_valid():
             nameValue = form.cleaned_data.get('nameValue')
             amountValue = form.cleaned_data.get('amountValue')
-            
-
             newDep = Bank(total=amountValue, name= nameValue )
             newDep.save()
+            return HttpResponseRedirect(reverse('index'))
     else:
         form = AccountForm()
 
