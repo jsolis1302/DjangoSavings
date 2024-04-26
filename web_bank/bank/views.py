@@ -6,32 +6,32 @@ from django.urls import reverse
 
 from bank.forms import DepositForm,AccountForm
 
-from .models import Bank,Account
+from .models import Bank,Account,AccountMaster,AccountDetail
 
 # Create your views here.
 
 def index(request):
     
     return render(request, "bank/index.html",{
-        "banks": Bank.objects.all().order_by('name')
+        "banks": AccountMaster.objects.all().order_by('name')
         #"accounts":Account.objects.all().order_by('-date')
     })
 
 def allBanks(request):
     return render(request, "bank/index.html",{
-        "bank": Bank.objects.first(),
-        "accounts":Account.objects.all().order_by('-date')
+        "bank": AccountMaster.objects.first(),
+        "accounts":AccountDetail.objects.all().order_by('-date')
     })
 
 def accountByid(request,bank_id):
         try:
-            account = Account.objects.filter(account=bank_id).order_by('-date')
+            account = AccountDetail.objects.filter(account=bank_id).order_by('-date')
             
-        except Account.DoesNotExist:
+        except AccountDetail.DoesNotExist:
             raise Http404("Detail not found.")
         return render(request, "bank/bankDetail.html", {
             "accounts": account,
-            "bank":Bank.objects.get(id=bank_id)
+            "bank":AccountMaster.objects.get(id=bank_id)
             #"passengers": flight.passengers.all(),
             #"non_passengers": Passenger.objects.exclude(flights=flight).all()
         })
@@ -50,13 +50,13 @@ def deposit(request,bank_id):
 
             total = oneval + twoval + fiveval + tenval
 
-            bank = Bank.objects.get(id=bank_id)
+            bank = AccountMaster.objects.get(id=bank_id)
             updatedAmount = bank.total + total
             newdate  = datetime.datetime.now()
             print(newdate)
-            newTotal = Bank(id=bank_id,total =updatedAmount,name=bank.name)
+            newTotal = AccountMaster(id=bank_id,total =updatedAmount,name=bank.name)
             newTotal.save()
-            newDep = Account(amount=total, date= newdate,account = bank )
+            newDep = AccountDetail(amount=total, date= newdate,account = bank )
             newDep.save()
             #return redirect("account/"+str(bank_id))
             return HttpResponseRedirect(reverse('details',args=(bank_id,)))
@@ -74,7 +74,7 @@ def addAccount(request):
         if form.is_valid():
             nameValue = form.cleaned_data.get('nameValue')
             amountValue = form.cleaned_data.get('amountValue')
-            newDep = Bank(total=amountValue, name= nameValue )
+            newDep = AccountMaster(total=amountValue, name= nameValue )
             newDep.save()
             return HttpResponseRedirect(reverse('index'))
     else:
