@@ -25,7 +25,7 @@ def allBanks(request):
 
 def accountByid(request,bank_id):
         try:
-            account = Account.objects.filter(account=bank_id).order_by('date')
+            account = Account.objects.filter(account=bank_id).order_by('-date')
             
         except Account.DoesNotExist:
             raise Http404("Detail not found.")
@@ -52,7 +52,8 @@ def deposit(request,bank_id):
 
             bank = Bank.objects.get(id=bank_id)
             updatedAmount = bank.total + total
-            newdate  = datetime.datetime.now().date()
+            newdate  = datetime.datetime.now()
+            print(newdate)
             newTotal = Bank(id=bank_id,total =updatedAmount,name=bank.name)
             newTotal.save()
             newDep = Account(amount=total, date= newdate,account = bank )
