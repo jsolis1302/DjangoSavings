@@ -1,6 +1,6 @@
 import datetime
 from django import forms
-from django.http import HttpResponseBadRequest, HttpResponseRedirect, Http404
+from django.http import  HttpResponseRedirect, Http404
 from django.shortcuts import render,redirect
 from django.urls import reverse
 
@@ -46,13 +46,11 @@ def deposit(request,account_id):
 
             bank = Account.objects.get(id=account_id)
             updatedAmount = bank.total + total
-            newdate  = datetime.datetime.now()
-            print(newdate)
+
             newTotal = Account(id=account_id,total =updatedAmount,name=bank.name)
             newTotal.save()
-            newDep = AccountDetail(amount=total, date= newdate,account = bank )
+            newDep = AccountDetail(amount=total, date= datetime.datetime.now(),account = bank )
             newDep.save()
-            #return redirect("account/"+str(bank_id))
             return HttpResponseRedirect(reverse('details',args=(account_id,)))
     else:
         form = DepositForm()
