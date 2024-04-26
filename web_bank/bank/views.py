@@ -34,6 +34,7 @@ def accountByid(request,account_id):
     
 def deposit(request,account_id):
     form = DepositForm()
+    bank = Account.objects.get(id=account_id)
     if request.method == 'POST':
         form = DepositForm(request.POST)
         if form.is_valid():
@@ -43,8 +44,6 @@ def deposit(request,account_id):
             tenval = form.cleaned_data.get('tenValue')*10
 
             total = oneval + twoval + fiveval + tenval
-
-            bank = Account.objects.get(id=account_id)
             updatedAmount = bank.total + total
 
             newTotal = Account(id=account_id,total =updatedAmount,name=bank.name)
@@ -56,7 +55,8 @@ def deposit(request,account_id):
         form = DepositForm()
 
     return render(request, "bank/deposit.html",{
-        "deposit_form": form
+        "deposit_form": form,
+        "acountName":bank.name
     })
 
 def addAccount(request):
