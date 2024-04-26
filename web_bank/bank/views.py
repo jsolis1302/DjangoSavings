@@ -13,14 +13,8 @@ from .models import Account,AccountDetail
 def index(request):
     
     return render(request, "bank/index.html",{
-        "banks": Account.objects.all().order_by('name')
+        "accounts": Account.objects.all().order_by('name')
         #"accounts":Account.objects.all().order_by('-date')
-    })
-
-def allBanks(request):
-    return render(request, "bank/index.html",{
-        "bank": Account.objects.first(),
-        "accounts":AccountDetail.objects.all().order_by('-date')
     })
 
 def accountByid(request,bank_id):
@@ -30,8 +24,8 @@ def accountByid(request,bank_id):
         except AccountDetail.DoesNotExist:
             raise Http404("Detail not found.")
         return render(request, "bank/bankDetail.html", {
-            "accounts": account,
-            "bank":Account.objects.get(id=bank_id)
+            "details": account,
+            "account":Account.objects.get(id=bank_id)
             #"passengers": flight.passengers.all(),
             #"non_passengers": Passenger.objects.exclude(flights=flight).all()
         })
