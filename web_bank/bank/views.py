@@ -17,22 +17,22 @@ def index(request):
         #"accounts":Account.objects.all().order_by('-date')
     })
 
-def accountByid(request,bank_id):
+def accountByid(request,account_id):
         try:
-            account = AccountDetail.objects.filter(account=bank_id).order_by('-date')
+            account = AccountDetail.objects.filter(account=account_id).order_by('-date')
             
         except AccountDetail.DoesNotExist:
             raise Http404("Detail not found.")
         return render(request, "bank/bankDetail.html", {
             "details": account,
-            "account":Account.objects.get(id=bank_id)
+            "account":Account.objects.get(id=account_id)
             #"passengers": flight.passengers.all(),
             #"non_passengers": Passenger.objects.exclude(flights=flight).all()
         })
     
 
     
-def deposit(request,bank_id):
+def deposit(request,account_id):
     form = DepositForm()
     if request.method == 'POST':
         form = DepositForm(request.POST)
@@ -44,16 +44,16 @@ def deposit(request,bank_id):
 
             total = oneval + twoval + fiveval + tenval
 
-            bank = Account.objects.get(id=bank_id)
+            bank = Account.objects.get(id=account_id)
             updatedAmount = bank.total + total
             newdate  = datetime.datetime.now()
             print(newdate)
-            newTotal = Account(id=bank_id,total =updatedAmount,name=bank.name)
+            newTotal = Account(id=account_id,total =updatedAmount,name=bank.name)
             newTotal.save()
             newDep = AccountDetail(amount=total, date= newdate,account = bank )
             newDep.save()
             #return redirect("account/"+str(bank_id))
-            return HttpResponseRedirect(reverse('details',args=(bank_id,)))
+            return HttpResponseRedirect(reverse('details',args=(account_id,)))
     else:
         form = DepositForm()
 
