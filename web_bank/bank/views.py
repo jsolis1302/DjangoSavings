@@ -11,7 +11,6 @@ from .models import Account,AccountDetail
 # Create your views here.
 
 def index(request):
-    
     return render(request, "bank/index.html",{
         "accounts": Account.objects.all().order_by('name')
         #"accounts":Account.objects.all().order_by('-date')
