@@ -7,11 +7,11 @@ from django.urls import reverse
 from bank.forms import DepositForm,AccountForm
 
 from .models import Account,AccountDetail
+from django.db.models import Sum
 
 # Create your views here.
 
 def index(request):
-    
     return render(request, "bank/index.html",{
         "accounts": Account.objects.all().order_by('name')
         #"accounts":Account.objects.all().order_by('-date')
@@ -44,12 +44,12 @@ def deposit(request,account_id):
             tenval = form.cleaned_data.get('tenValue')*10
 
             total = oneval + twoval + fiveval + tenval
-            updatedAmount = bank.total + total
-
-            newTotal = Account(id=account_id,total =updatedAmount,name=bank.name)
-            newTotal.save()
+            
             newDep = AccountDetail(amount=total, date= datetime.datetime.now(),account = bank )
             newDep.save()
+            accountTotal = AccountDetail.objects.filter(account=account_id).aggregate(Sum('amount'))
+            newTotal = Account(id=account_id,total =accountTotal['amount__sum'],name=bank.name,withdraw = bank.withdraw)
+            newTotal.save()
             return HttpResponseRedirect(reverse('details',args=(account_id,)))
     else:
         form = DepositForm()

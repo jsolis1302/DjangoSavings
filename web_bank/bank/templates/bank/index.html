@@ -11,45 +11,20 @@
     <ul class="list-group">
     {% for account in accounts %}
         <li class="list-group-item">
-            <div class="row">
-                <div class="col">
-                    <h2>Account name: {{account.name}}</h2>
-                </div>
-                <div class="col">
-                    <a class="nav-link active" href = "{% url 'details' account.id %}">Details</a>
-                </div>
+            <div class="d-flex w-100 justify-content-between">
+                <h2 class="mb-1">Account name: {{account.name}}</h2>
+                <a class="nav-link active" href = "{% url 'details' account.id %}">Details</a>
             </div>
+            <div class="d-flex w-100 justify-content-end">
+                <a class="btn btn-primary btn-sm">Deposit</a>
+                {% if account.withdraw %}
+                    <a class="btn btn-danger btn-sm">Withdraw</a>
+                {%endif%}
 
-            
-            
+            </div>
         </li>
-        
-        
     {% endfor %}
     </ul>
-    {% comment %} <div class="row">   
-        <h3>Deposit Histoy</h3>
-        <table class="table">
-            <thead class="table-dark">
-                <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">Deposit date</th>
-                    <th scope="col">Amount</th>
-                  </tr>
-                </thead>
-                <tbody>
-                    {% for account in accounts %}
-                    <tr>
-                        <td>{{forloop.counter}}</td>
-                        <td>{{account.date}}</td>
-                        <td>{{account.amount | floatformat:2}}</td>
-
-                      </tr>
-                    {% endfor %}
-                </tbody>
-
-        </table>
-    </div> {% endcomment %}
 </div>
 
 {% endblock body %}
