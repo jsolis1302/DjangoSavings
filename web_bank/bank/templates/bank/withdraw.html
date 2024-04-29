@@ -1,0 +1,19 @@
+{% extends "bank/layout.html" %}
+
+{% block body %}
+<div class="container">
+    <h2>Withdraw for {{account.name}} account</h2>
+    <h3>Available amount: {{account.total}}</h3>
+    <form method = 'POST'>
+        {% csrf_token %}
+        <div class="form-group">
+            {{withdraw_form.amountValue.label_tag}}
+            {{withdraw_form.amountValue}}
+        </div>
+
+        <button type="submit" class="btn btn-danger">Withdraw</button>
+      </form>
+</div>
+
+
+{% endblock body %}

@@ -4,7 +4,7 @@ from django.http import  HttpResponseRedirect, Http404
 from django.shortcuts import render,redirect
 from django.urls import reverse
 
-from bank.forms import DepositForm,AccountForm
+from bank.forms import DepositForm,AccountForm,WithdrawForm
 
 from .models import Account,AccountDetail
 from django.db.models import Sum
@@ -56,7 +56,7 @@ def deposit(request,account_id):
 
     return render(request, "bank/deposit.html",{
         "deposit_form": form,
-        "acountName":bank.name
+        "accountName":bank.name
     })
 
 def addAccount(request):
@@ -76,3 +76,23 @@ def addAccount(request):
         "account_form": form
     })
 
+def withdraw(request,account_id):
+    form = WithdrawForm()
+    bank = Account.objects.get(id=account_id)
+    if request.method == 'POST':
+        form = WithdrawForm(request.POST)
+        if form.is_valid():
+            amountValue = form.cleaned_data.get('amountValue')
+            if amountValue <= bank.total:
+                newDep = AccountDetail(amount=amountValue*-1, date= datetime.datetime.now(),account = bank )
+                newDep.save()
+                accountTotal = AccountDetail.objects.filter(account=account_id).aggregate(Sum('amount'))
+                newTotal = Account(id=account_id,total =accountTotal['amount__sum'],name=bank.name,withdraw = bank.withdraw)
+                newTotal.save()
+                return HttpResponseRedirect(reverse('details',args=(account_id,)))
+    else:
+        form = WithdrawForm()     
+    return render(request,"bank/withdraw.html",{
+        "withdraw_form": form,
+        "account":bank
+    })

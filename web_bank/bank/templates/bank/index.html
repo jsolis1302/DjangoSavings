@@ -16,9 +16,9 @@
                 <a class="nav-link active" href = "{% url 'details' account.id %}">Details</a>
             </div>
             <div class="d-flex w-100 justify-content-end">
-                <a class="btn btn-primary btn-sm">Deposit</a>
+                <a class="btn btn-primary btn-sm" href = "{% url 'deposit' account.id %}">Deposit</a>
                 {% if account.withdraw %}
-                    <a class="btn btn-danger btn-sm">Withdraw</a>
+                    <a class="btn btn-danger btn-sm" href = "{% url 'withdraw' account.id %}">Withdraw</a>
                 {%endif%}
 
             </div>
