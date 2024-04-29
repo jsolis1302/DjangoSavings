@@ -66,7 +66,9 @@ def addAccount(request):
         if form.is_valid():
             nameValue = form.cleaned_data.get('nameValue')
             amountValue = form.cleaned_data.get('amountValue')
-            newDep = Account(total=amountValue, name= nameValue )
+            withdraw = form['withdraw'].value()
+            print("Field withdraw",withdraw)
+            newDep = Account(total=amountValue, name= nameValue, withdraw=withdraw )
             newDep.save()
             return HttpResponseRedirect(reverse('index'))
     else:
