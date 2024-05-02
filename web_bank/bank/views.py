@@ -13,7 +13,8 @@ from django.db.models import Sum
 
 def index(request):
     return render(request, "bank/index.html",{
-        "accounts": Account.objects.all().order_by('name')
+        "accounts": Account.objects.all().order_by('name'),
+        "total": Account.objects.aggregate(Sum('total'))['total__sum']
         #"accounts":Account.objects.all().order_by('-date')
     })
 
@@ -66,7 +67,9 @@ def addAccount(request):
         if form.is_valid():
             nameValue = form.cleaned_data.get('nameValue')
             amountValue = form.cleaned_data.get('amountValue')
-            newDep = Account(total=amountValue, name= nameValue )
+            withdraw = form['withdraw'].value()
+            print("Field withdraw",withdraw)
+            newDep = Account(total=amountValue, name= nameValue, withdraw=withdraw )
             newDep.save()
             return HttpResponseRedirect(reverse('index'))
     else:

@@ -9,6 +9,7 @@ class DepositForm(forms.Form):
 class AccountForm(forms.Form):
     nameValue = forms.CharField(label="Account Name",widget=forms.TextInput(attrs={'class':'form-control'}))
     amountValue = forms.IntegerField(label="Initial amount",widget=forms.NumberInput(attrs={'class':'form-control'}),initial=0,min_value=0)
+    withdraw = forms.BooleanField(label="Allows withdraw?",required=False)
 
 class WithdrawForm(forms.Form):
     

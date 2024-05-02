@@ -7,7 +7,7 @@
             <a class='btn btn-primary btn-sm' href = "{% url 'newaccount' %}">Add new account</a> 
         </div>
     </div> 
-    <h2>All accounts</h2>
+    <h2>All accounts total: ${{total}} </h2>
     <ul class="list-group">
     {% for account in accounts %}
         <li class="list-group-item">
